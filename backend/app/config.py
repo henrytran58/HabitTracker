@@ -1,13 +1,5 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
+class Config:
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root:henrytran@localhost/habittracker'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-
-app = Flask(__name__)
-CORS(app)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:henrytran@localhost/habittracker'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
 

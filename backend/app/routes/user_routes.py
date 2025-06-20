@@ -4,7 +4,7 @@ from app import db
 
 user_bp = Blueprint('user_bp', __name__)
 
-@user_bp.route('/api/users/register', methods=['POST'])
+@user_bp.route('/api/register', methods=['POST'])
 def register_user():
     data = request.get_json()
     username = data.get('username')
@@ -25,8 +25,14 @@ def register_user():
 
     return jsonify({"message": "User registered", "user": new_user.to_json()}), 201
 
-
-@user_bp.route('/api/users/login', methods=['POST'])
+@user_bp.route("/api/login", methods=["OPTIONS"])
+def login_options():
+    response = jsonify({})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+    return response
+@user_bp.route('/api/login', methods=['POST'])
 def login_user():
     data = request.get_json()
     username = data.get('username')

@@ -15,10 +15,21 @@ const HabitPage = () => {
     setHabits((prev) => [...prev, newHabit]);
   };
   const fetchHabits = async () => {
-    const response = await fetch("http://127.0.0.1:5000/api/habits");
-    const data = await response.json();
-    setHabits(data.habits);
-    console.log(data.habits);
+    const user_id = localStorage.getItem("userID");
+  
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/api/habits?user_id=${user_id}`);
+      const data = await response.json();
+  
+      if (response.ok) {
+        setHabits(data.habits);
+        console.log("User's habits:", data.habits);
+      } else {
+        console.error("Error fetching habits:", data.error);
+      }
+    } catch (err) {
+      console.error("Fetch error:", err.message);
+    }
   };
 
   useEffect(() => {
@@ -94,7 +105,7 @@ const HabitPage = () => {
       {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: newName }), // test only
+        body: JSON.stringify({ name: newName }),
       }
     );
 

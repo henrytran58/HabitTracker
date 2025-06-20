@@ -7,8 +7,14 @@ habit_bp = Blueprint('habit_bp', __name__)
 
 @habit_bp.route('/api/habits', methods=['GET'])
 def get_habits():
-    habits = Habit.query.all()
-    json_habits = list(map(lambda x:x.to_json(), habits))
+    user_id = request.args.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "Missing user_id"}), 400
+
+    habits = Habit.query.filter_by(user_id=user_id).all()
+    json_habits = [habit.to_json() for habit in habits]
+
     return jsonify({"habits": json_habits})
 
 @habit_bp.route('/api/create_habit', methods=["POST"])

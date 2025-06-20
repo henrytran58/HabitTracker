@@ -3,7 +3,8 @@ import { useState } from "react";
 const ToggleFormHabit = ({ onHabitCreated }) => {
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
-  const user_id = 1;
+  const user_id = Number(localStorage.getItem("userID"));
+  console.log(user_id);
 
   const toggleForm = () => setShowForm(!showForm);
 

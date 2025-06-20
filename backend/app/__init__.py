@@ -6,11 +6,12 @@ from .config import Config
 db = SQLAlchemy()  
 def create_app():
     app = Flask(__name__)
+    # CORS(app)
+    # CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
     CORS(app)
-    
     app.config.from_object(Config)
     db.init_app(app) 
-
+    
     # Import and register blueprints
     from .routes.habit_routes import habit_bp
     from .routes.habit_log_routes import habit_log_bp

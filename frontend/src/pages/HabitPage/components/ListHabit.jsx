@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 const ListHabit = ({
   habits,
@@ -42,11 +43,11 @@ const ListHabit = ({
         <thead>
           <tr>
             <th>Done</th>
-            <th>Name</th>
-            <th>Total</th>
+            <th className="text-left pl-4">Habit Name</th>
             <th>Current Streak</th>
             <th>Longest Streak</th>
-            <th>Actions</th>
+            <th>Total</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -80,13 +81,13 @@ const ListHabit = ({
                   )}
                 </td>
                 <td className="px-4 py-2 border-b text-center">
-                  {habit.count}
-                </td>
-                <td className="px-4 py-2 border-b text-center">
                   {habit.current_streak}
                 </td>
                 <td className="px-4 py-2 border-b text-center">
                   {habit.longest_streak}
+                </td>
+                <td className="px-4 py-2 border-b text-center">
+                  {habit.count}
                 </td>
                 <td className="px-4 py-2 border-b">
                   {editingHabitId === habit.id ? (
@@ -105,18 +106,20 @@ const ListHabit = ({
                       </button>
                     </div>
                   ) : (
-                    <div className="flex gap-2">
+                    <div className="flex gap-3">
                       <button
                         onClick={() => handleStartEdit(habit)}
-                        className="px-3 py-1 bg-yellow-400 hover:bg-yellow-500 text-white rounded"
+                        className="p-2 bg-yellow-400 hover:bg-yellow-500 text-white rounded shadow-sm transition-colors duration-200"
+                        aria-label="Edit habit"
                       >
-                        Update
+                        <PencilIcon className="w-5 h-5" />
                       </button>
                       <button
                         onClick={() => onDelete(habit.id)}
-                        className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
+                        className="p-2 bg-red-500 hover:bg-red-600 text-white rounded shadow-sm transition-colors duration-200"
+                        aria-label="Delete habit"
                       >
-                        Delete
+                        <TrashIcon className="w-5 h-5" />
                       </button>
                     </div>
                   )}

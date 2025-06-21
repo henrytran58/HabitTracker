@@ -48,21 +48,21 @@ export default function LoginPage({ onLoginSuccess }) {
 
     try {
       //styling
-      // const response = await fetch(url, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(payload),
-      // });
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-      // const data = await response.json();
+      const data = await response.json();
 
-      // if (!response.ok) {
-      //   throw new Error(data.error || "Something went wrong");
-      // }
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong");
+      }
 
-      // const user = data.user;
+      const user = data.user;
 
       if (isSignup) {
         // ✅ After successful registration
@@ -74,16 +74,16 @@ export default function LoginPage({ onLoginSuccess }) {
 
       // ✅ After successful login
       //styling
-      // localStorage.setItem("userID", user.id);
-      // localStorage.setItem("username", user.username);
-      // localStorage.setItem("email", user.email);
-      // localStorage.setItem("name", user.name);
+      localStorage.setItem("userID", user.id);
+      localStorage.setItem("username", user.username);
+      localStorage.setItem("email", user.email);
+      localStorage.setItem("name", user.name);
 
-      // localStorage.setItem("token", data.token); // Save token
+      localStorage.setItem("token", data.token); // Save token
 
-      // if (onLoginSuccess) {
-      //   onLoginSuccess(user.id);
-      // }
+      if (onLoginSuccess) {
+        onLoginSuccess(user.id);
+      }
 
       navigate("/habits"); // ✅ Go to HabitPage
     } catch (err) {
@@ -91,10 +91,18 @@ export default function LoginPage({ onLoginSuccess }) {
       setError(err.message);
     }
   };
-
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200 p-4">
-      <h1 className="text-4xl font-bold mb-6 text-purple-700">StreakFlow</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-400 via-blue-200 to-purple-300 p-4">
+      <h1 className="text-4xl font-bold mb-6 text-blue-700 flex items-center gap-2">
+        
+        <img
+          src="/StreakFlowIcon-removebg.png"
+          alt="StreakFlow Icon"
+          className="w-8 h-8"
+        />
+        StreakFlow{" "}
+      </h1>
+
       <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {isSignup && (
@@ -144,7 +152,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
           <button
             type="submit"
-            className="bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition"
+            className="bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
           >
             {isSignup ? "Sign Up" : "Log In"}
           </button>
@@ -152,14 +160,81 @@ export default function LoginPage({ onLoginSuccess }) {
 
         <p className="text-center mt-4 text-sm">
           {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
-          <button
-            onClick={toggleForm}
-            className="text-purple-600 underline ml-1"
-          >
+          <button onClick={toggleForm} className="text-blue-600 underline ml-1">
             {isSignup ? "Log In" : "Sign Up"}
           </button>
         </p>
       </div>
     </div>
   );
+  // return (
+  //   <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200 p-4">
+  //     <h1 className="text-4xl font-bold mb-6 text-purple-700">StreakFlow</h1>
+  //     <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
+  //       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+  //         {isSignup && (
+  //           <>
+  //             <input
+  //               type="text"
+  //               name="name"
+  //               placeholder="Full Name"
+  //               value={formData.name}
+  //               onChange={handleChange}
+  //               required
+  //               className="border p-2 rounded-md"
+  //             />
+  //             <input
+  //               type="email"
+  //               name="email"
+  //               placeholder="Email"
+  //               value={formData.email}
+  //               onChange={handleChange}
+  //               required
+  //               className="border p-2 rounded-md"
+  //             />
+  //           </>
+  //         )}
+
+  //         <input
+  //           type="text"
+  //           name="username"
+  //           placeholder="Username"
+  //           value={formData.username}
+  //           onChange={handleChange}
+  //           required
+  //           className="border p-2 rounded-md"
+  //         />
+  //         <input
+  //           type="password"
+  //           name="password"
+  //           placeholder="Password"
+  //           value={formData.password}
+  //           onChange={handleChange}
+  //           required
+  //           className="border p-2 rounded-md"
+  //         />
+
+  //         {error && <p className="text-red-500 text-sm">{error}</p>}
+  //         {success && <p className="text-green-600 text-sm">{success}</p>}
+
+  //         <button
+  //           type="submit"
+  //           className="bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition"
+  //         >
+  //           {isSignup ? "Sign Up" : "Log In"}
+  //         </button>
+  //       </form>
+
+  //       <p className="text-center mt-4 text-sm">
+  //         {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
+  //         <button
+  //           onClick={toggleForm}
+  //           className="text-purple-600 underline ml-1"
+  //         >
+  //           {isSignup ? "Log In" : "Sign Up"}
+  //         </button>
+  //       </p>
+  //     </div>
+  //   </div>
+  // );
 }

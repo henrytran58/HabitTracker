@@ -6,8 +6,82 @@ import WeekDatePicker from "./components/WeekDatePicker";
 const HabitPage = () => {
   const [habits, setHabits] = useState([]);
   const navigate = useNavigate();
+  //styling
+  const mockHabits = [
+    {
+      id: 1,
+      user_id: 101,
+      name: "Drink Water",
+      frequency: "daily",
+      start_date: "2024-12-01",
+      current_streak: 7,
+      longest_streak: 10,
+      count: 45
+    },
+    {
+      id: 2,
+      user_id: 101,
+      name: "Exercise (30 mins)",
+      frequency: "daily",
+      start_date: "2025-01-15",
+      current_streak: 3,
+      longest_streak: 8,
+      count: 21
+    },
+    {
+      id: 3,
+      user_id: 101,
+      name: "Read a Book",
+      frequency: "daily",
+      start_date: "2025-03-10",
+      current_streak: 0,
+      longest_streak: 4,
+      count: 16
+    },
+    {
+      id: 4,
+      user_id: 101,
+      name: "Meditation",
+      frequency: "daily",
+      start_date: "2025-04-01",
+      current_streak: 12,
+      longest_streak: 12,
+      count: 33
+    },
+    {
+      id: 5,
+      user_id: 101,
+      name: "Coding Practice",
+      frequency: "daily",
+      start_date: "2025-02-20",
+      current_streak: 1,
+      longest_streak: 5,
+      count: 18
+    },
+    {
+      id: 6,
+      user_id: 101,
+      name: "Walk the Dog",
+      frequency: "daily",
+      start_date: "2025-06-01",
+      current_streak: 9,
+      longest_streak: 15,
+      count: 60
+    },
+    {
+      id: 7,
+      user_id: 101,
+      name: "Journal",
+      frequency: "daily",
+      start_date: "2025-06-10",
+      current_streak: 2,
+      longest_streak: 6,
+      count: 9
+    },
+  ];
   useEffect(() => {
-    fetchHabits();
+    // fetchHabits();
+    setHabits(mockHabits);
   }, []);
 
   const [habitLogs, setHabitLogs] = useState({});
@@ -38,10 +112,10 @@ const HabitPage = () => {
       console.error("Fetch error:", err.message);
     }
   };
-
-  useEffect(() => {
-    fetchHabitLogsForDate(selectedDate);
-  }, [selectedDate]);
+  //styling
+  // useEffect(() => {
+  //   fetchHabitLogsForDate(selectedDate);
+  // }, [selectedDate]);
 
   const fetchHabitLogsForDate = async (date) => {
     const formattedDate = date.toISOString().split("T")[0];
@@ -78,7 +152,8 @@ const HabitPage = () => {
         ...prev,
         [habitId]: data.habit_log,
       }));
-      fetchHabits();
+      //styling
+      // fetchHabits();
     } else {
       const err = await response.json();
       alert(err.message || "Failed to update habit log.");

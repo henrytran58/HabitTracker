@@ -1,19 +1,15 @@
-.color-empty {
-    fill: #ebedf0;
-  }
-  
-  .color-github-1 {
-    fill: #c6e48b;
-  }
-  
-  .color-github-2 {
-    fill: #7bc96f;
-  }
-  
-  .color-github-3 {
-    fill: #239a3b;
-  }
-  
-  .color-github-4 {
-    fill: #196127;
-  }
+.color-streak-1  { fill: hsl(140, 60%, 90%); }  /* very light green */
+.color-streak-2  { fill: hsl(140, 60%, 83%); }
+.color-streak-3  { fill: hsl(140, 60%, 76%); }
+.color-streak-4  { fill: hsl(140, 60%, 69%); }
+.color-streak-5  { fill: hsl(140, 60%, 62%); }
+.color-streak-6  { fill: hsl(140, 60%, 55%); }
+.color-streak-7  { fill: hsl(140, 60%, 48%); }
+.color-streak-8  { fill: hsl(140, 60%, 41%); }
+.color-streak-9  { fill: hsl(140, 60%, 34%); }
+.color-streak-10 { fill: hsl(140, 60%, 27%); }
+.color-streak-11 { fill: hsl(140, 60%, 22%); }
+.color-streak-12 { fill: hsl(140, 60%, 18%); }
+.color-streak-13 { fill: hsl(140, 60%, 14%); }
+.color-streak-14 { fill: hsl(140, 60%, 10%); }
+.color-streak-15 { fill: hsl(140, 60%, 6%); }   

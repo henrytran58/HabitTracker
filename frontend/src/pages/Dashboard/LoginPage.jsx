@@ -47,21 +47,22 @@ export default function LoginPage({ onLoginSuccess }) {
         };
 
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      //styling
+      // const response = await fetch(url, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(payload),
+      // });
 
-      const data = await response.json();
+      // const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
-      }
+      // if (!response.ok) {
+      //   throw new Error(data.error || "Something went wrong");
+      // }
 
-      const user = data.user;
+      // const user = data.user;
 
       if (isSignup) {
         // ✅ After successful registration
@@ -72,17 +73,17 @@ export default function LoginPage({ onLoginSuccess }) {
       }
 
       // ✅ After successful login
-      localStorage.setItem("userID", user.id);
-      localStorage.setItem("username", user.username);
-      localStorage.setItem("email", user.email);
-      localStorage.setItem("name", user.name);
+      //styling
+      // localStorage.setItem("userID", user.id);
+      // localStorage.setItem("username", user.username);
+      // localStorage.setItem("email", user.email);
+      // localStorage.setItem("name", user.name);
 
-      localStorage.setItem("token", data.token); // Save token
-      navigate("/habit");
+      // localStorage.setItem("token", data.token); // Save token
 
-      if (onLoginSuccess) {
-        onLoginSuccess(user.id);
-      }
+      // if (onLoginSuccess) {
+      //   onLoginSuccess(user.id);
+      // }
 
       navigate("/habits"); // ✅ Go to HabitPage
     } catch (err) {

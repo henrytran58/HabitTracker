@@ -15,13 +15,13 @@ def login_user():
         return jsonify({"error": "Missing username or password"}), 400
 
     user = User.query.filter_by(username=username).first()
-    access_token = create_access_token(identity=user.id)  # generate token
 
     if user and user.check_password(password):
+        access_token = create_access_token(identity=user.id)  # generate token
         return jsonify({"token": access_token, "user": user.to_json()}), 200
     else:
-        return jsonify({"error": "Invalid credentials"}), 401
-    
+        return jsonify({"error": "Invalid credentials"}), 40
+        1
 @user_bp.route('/api/register', methods=['POST'])
 def register_user():
     data = request.get_json()

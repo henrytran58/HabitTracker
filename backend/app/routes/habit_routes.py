@@ -1,13 +1,17 @@
 from flask import Blueprint, request, jsonify
 from app.models import Habit
 from app import db
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import get_jwt_identity
 from datetime import date
 
 habit_bp = Blueprint('habit_bp', __name__)
 
 @habit_bp.route('/api/habits', methods=['GET'])
+@jwt_required()
 def get_habits():
-    user_id = request.args.get("user_id")
+    # user_id = request.args.get("user_id")
+    user_id = get_jwt_identity()
 
     if not user_id:
         return jsonify({"error": "Missing user_id"}), 400

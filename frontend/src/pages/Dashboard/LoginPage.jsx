@@ -77,6 +77,9 @@ export default function LoginPage({ onLoginSuccess }) {
       localStorage.setItem("email", user.email);
       localStorage.setItem("name", user.name);
 
+      localStorage.setItem("token", data.token); // Save token
+      navigate("/habit");
+
       if (onLoginSuccess) {
         onLoginSuccess(user.id);
       }

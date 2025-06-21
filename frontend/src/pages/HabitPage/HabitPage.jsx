@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ListHabit from "./components/ListHabit";
+import { useNavigate } from "react-router-dom";
 import ToggleFormHabit from "./components/ToggleFormHabit";
 import WeekDatePicker from "./components/WeekDatePicker";
 const HabitPage = () => {
   const [habits, setHabits] = useState([]);
+  const navigate = useNavigate(); 
   useEffect(() => {
     fetchHabits();
   }, []);
@@ -15,10 +17,15 @@ const HabitPage = () => {
     setHabits((prev) => [...prev, newHabit]);
   };
   const fetchHabits = async () => {
-    const user_id = localStorage.getItem("userID");
+    const token = localStorage.getItem("token");
   
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/habits?user_id=${user_id}`);
+      const response = await fetch(`http://127.0.0.1:5000/api/habits`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+  
       const data = await response.json();
   
       if (response.ok) {
@@ -120,6 +127,12 @@ const HabitPage = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userID");
+    navigate("/");
+  };
+
   const onDateChange = (date) => {
     // console.log(date);
     setSelectedDate(new Date(date));
@@ -140,6 +153,9 @@ const HabitPage = () => {
       />
       ;
       <ToggleFormHabit onHabitCreated={handleHabitCreated} />
+      <button onClick={handleLogout} style={{ padding: "8px 16px", cursor: "pointer" }}>
+          Logout
+        </button>
     </>
   );
 };

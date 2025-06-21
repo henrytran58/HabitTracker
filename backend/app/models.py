@@ -9,7 +9,7 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)  # hashed
     email = db.Column(db.String(100), unique=True, nullable=False)
     name = db.Column(db.String(100))
-
+    
     def set_password(self, raw_password):
         self.password = generate_password_hash(raw_password)
 

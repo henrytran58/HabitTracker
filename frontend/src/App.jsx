@@ -1,14 +1,25 @@
 import "./App.css";
 import HabitPage from "./pages/HabitPage/HabitPage";
 import LoginPage from "./pages/Dashboard/LoginPage";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, Routes, Route } from "react-router-dom";
+
 function App() {
-  return    <BrowserRouter>
-  <Routes>
-    <Route path="/" element={<LoginPage />} />
-    <Route path="/habits" element={<HabitPage />} />
-  </Routes>
-</BrowserRouter>
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/habits");
+    }
+  }, []);
+
+  return (
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/habits" element={<HabitPage />} />
+    </Routes>
+  );
 }
 
 export default App;

@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from .config import Config
 
 db = SQLAlchemy()  
@@ -8,8 +9,10 @@ def create_app():
     app = Flask(__name__)
     # CORS(app)
     # CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
-    CORS(app)
     app.config.from_object(Config)
+    app.config["JWT_SECRET_KEY"] = "super-secret-key"  # Use environment variable in production
+    jwt = JWTManager(app)
+    CORS(app)
     db.init_app(app) 
     
     # Import and register blueprints

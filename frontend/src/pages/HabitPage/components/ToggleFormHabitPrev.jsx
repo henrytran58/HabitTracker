@@ -25,7 +25,7 @@ const ToggleFormHabitPrev = ({ onHabitCreated }) => {
       const result = await response.json();
       setName("");
       if (onHabitCreated) {
-        onHabitCreated(result.habit); // ✅ Trigger update
+        onHabitCreated(result.habit);
       }
       //   alert("Habit created successfully!");
       setShowForm(false); // Optionally hide form after submit

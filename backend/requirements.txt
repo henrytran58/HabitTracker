@@ -1,3 +1,4 @@
+PYTHON_VERSION = 3.11.8
 setuptools>=42
 wheel>=0.37.0
 absl-py==2.0.0

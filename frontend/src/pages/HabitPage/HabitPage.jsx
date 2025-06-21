@@ -7,81 +7,81 @@ const HabitPage = () => {
   const [habits, setHabits] = useState([]);
   const navigate = useNavigate();
   //styling
-  const mockHabits = [
-    {
-      id: 1,
-      user_id: 101,
-      name: "Drink Water",
-      frequency: "daily",
-      start_date: "2024-12-01",
-      current_streak: 7,
-      longest_streak: 10,
-      count: 45
-    },
-    {
-      id: 2,
-      user_id: 101,
-      name: "Exercise (30 mins)",
-      frequency: "daily",
-      start_date: "2025-01-15",
-      current_streak: 3,
-      longest_streak: 8,
-      count: 21
-    },
-    {
-      id: 3,
-      user_id: 101,
-      name: "Read a Book",
-      frequency: "daily",
-      start_date: "2025-03-10",
-      current_streak: 0,
-      longest_streak: 4,
-      count: 16
-    },
-    {
-      id: 4,
-      user_id: 101,
-      name: "Meditation",
-      frequency: "daily",
-      start_date: "2025-04-01",
-      current_streak: 12,
-      longest_streak: 12,
-      count: 33
-    },
-    {
-      id: 5,
-      user_id: 101,
-      name: "Coding Practice",
-      frequency: "daily",
-      start_date: "2025-02-20",
-      current_streak: 1,
-      longest_streak: 5,
-      count: 18
-    },
-    {
-      id: 6,
-      user_id: 101,
-      name: "Walk the Dog",
-      frequency: "daily",
-      start_date: "2025-06-01",
-      current_streak: 9,
-      longest_streak: 15,
-      count: 60
-    },
-    {
-      id: 7,
-      user_id: 101,
-      name: "Journal",
-      frequency: "daily",
-      start_date: "2025-06-10",
-      current_streak: 2,
-      longest_streak: 6,
-      count: 9
-    },
-  ];
+  // const mockHabits = [
+  //   {
+  //     id: 1,
+  //     user_id: 101,
+  //     name: "Drink Water",
+  //     frequency: "daily",
+  //     start_date: "2024-12-01",
+  //     current_streak: 7,
+  //     longest_streak: 10,
+  //     count: 45
+  //   },
+  //   {
+  //     id: 2,
+  //     user_id: 101,
+  //     name: "Exercise (30 mins)",
+  //     frequency: "daily",
+  //     start_date: "2025-01-15",
+  //     current_streak: 3,
+  //     longest_streak: 8,
+  //     count: 21
+  //   },
+  //   {
+  //     id: 3,
+  //     user_id: 101,
+  //     name: "Read a Book",
+  //     frequency: "daily",
+  //     start_date: "2025-03-10",
+  //     current_streak: 0,
+  //     longest_streak: 4,
+  //     count: 16
+  //   },
+  //   {
+  //     id: 4,
+  //     user_id: 101,
+  //     name: "Meditation",
+  //     frequency: "daily",
+  //     start_date: "2025-04-01",
+  //     current_streak: 12,
+  //     longest_streak: 12,
+  //     count: 33
+  //   },
+  //   {
+  //     id: 5,
+  //     user_id: 101,
+  //     name: "Coding Practice",
+  //     frequency: "daily",
+  //     start_date: "2025-02-20",
+  //     current_streak: 1,
+  //     longest_streak: 5,
+  //     count: 18
+  //   },
+  //   {
+  //     id: 6,
+  //     user_id: 101,
+  //     name: "Walk the Dog",
+  //     frequency: "daily",
+  //     start_date: "2025-06-01",
+  //     current_streak: 9,
+  //     longest_streak: 15,
+  //     count: 60
+  //   },
+  //   {
+  //     id: 7,
+  //     user_id: 101,
+  //     name: "Journal",
+  //     frequency: "daily",
+  //     start_date: "2025-06-10",
+  //     current_streak: 2,
+  //     longest_streak: 6,
+  //     count: 9
+  //   },
+  // ];
   useEffect(() => {
-    // fetchHabits();
-    setHabits(mockHabits);
+    fetchHabits();
+    // setHabits(mockHabits);
   }, []);
 
   const [habitLogs, setHabitLogs] = useState({});
@@ -104,7 +104,7 @@ const HabitPage = () => {
 
       if (response.ok) {
         setHabits(data.habits);
-        console.log("User's habits:", data.habits);
+        // console.log("User's habits:", data.habits);
       } else {
         console.error("Error fetching habits:", data.error);
       }
@@ -113,9 +113,9 @@ const HabitPage = () => {
     }
   };
   //styling
-  // useEffect(() => {
-  //   fetchHabitLogsForDate(selectedDate);
-  // }, [selectedDate]);
+  useEffect(() => {
+    fetchHabitLogsForDate(selectedDate);
+  }, [selectedDate]);
 
   const fetchHabitLogsForDate = async (date) => {
     const formattedDate = date.toISOString().split("T")[0];
@@ -153,7 +153,7 @@ const HabitPage = () => {
         [habitId]: data.habit_log,
       }));
       //styling
-      // fetchHabits();
+      fetchHabits();
     } else {
       const err = await response.json();
       alert(err.message || "Failed to update habit log.");
@@ -214,35 +214,75 @@ const HabitPage = () => {
     setSelectedDate(new Date(date));
     // fetchHabitLogsForDate(selectedDate);
   };
-
-  //test changed git acc
-
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-br from-blue-300  to-purple-200 p-6 relative text-gray-900">
+      
+      {/* Logout button top-right */}
+      <button
+        onClick={handleLogout}
+        className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 cursor-pointer"
+        style={{ padding: "6px 12px" }}
+      >
+        Log out
+      </button>
+  
+      {/* Date Picker */}
       <WeekDatePicker onDateChange={onDateChange} />
+  
+      {/* Habit List */}
       <ListHabit
         habits={habits}
         habitLogs={habitLogs}
         onToggleHabit={handleToggleHabit}
         onDelete={handleDelete}
         onUpdate={handleUpdate}
+        className="mt-6"
       />
-      ;
-      <ToggleFormHabit onHabitCreated={handleHabitCreated} />
-      <button
-        onClick={handleLogout}
-        style={{ padding: "8px 16px", cursor: "pointer" }}
-      >
-        Logout
-      </button>
-      <button
-        onClick={() => navigate("/streaks")}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        View Streak Heatmap
-      </button>
-    </>
+  
+      {/* Buttons below habit list */}
+      <div className="flex justify-between mt-6">
+        {/* Add Habit (ToggleFormHabit) on left */}
+        <div>
+          <ToggleFormHabit onHabitCreated={handleHabitCreated} />
+        </div>
+  
+        {/* View Streak button on right */}
+        <button
+          onClick={() => navigate("/streaks")}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          View Habit Streaks
+        </button>
+      </div>
+    </div>
   );
+
+  // return (
+  //   <div className="">
+  //     <WeekDatePicker onDateChange={onDateChange} />
+  //     <ListHabit
+  //       habits={habits}
+  //       habitLogs={habitLogs}
+  //       onToggleHabit={handleToggleHabit}
+  //       onDelete={handleDelete}
+  //       onUpdate={handleUpdate}
+  //     />
+  //     ;
+  //     <ToggleFormHabit onHabitCreated={handleHabitCreated} />
+  //     <button
+  //       onClick={handleLogout}
+  //       style={{ padding: "8px 16px", cursor: "pointer" }}
+  //     >
+  //       Logout
+  //     </button>
+  //     <button
+  //       onClick={() => navigate("/streaks")}
+  //       className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+  //     >
+  //       View Streak Heatmap
+  //     </button>
+  //   </div>
+  // );
 };
 
 export default HabitPage;

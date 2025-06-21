@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const ToggleFormHabit = ({ onHabitCreated }) => {
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
   const user_id = Number(localStorage.getItem("userID"));
-  console.log(user_id);
+  const inputRef = useRef(null);
 
   const toggleForm = () => setShowForm(!showForm);
+
+  // Auto-focus input when modal opens
+  useEffect(() => {
+    if (showForm && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [showForm]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -25,56 +32,66 @@ const ToggleFormHabit = ({ onHabitCreated }) => {
       const result = await response.json();
       setName("");
       if (onHabitCreated) {
-        onHabitCreated(result.habit); // ✅ Trigger update
+        onHabitCreated(result.habit);
       }
-      //   alert("Habit created successfully!");
-      setShowForm(false); // Optionally hide form after submit
+      setShowForm(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-6">
+    <>
+      {/* Add Habit Button */}
       <button
         onClick={toggleForm}
         className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded shadow transition"
       >
         <span className="text-xl font-bold">+</span>
-        <span>{showForm ? "Cancel" : "Add Habit"}</span>
+        <span>Add Habit</span>
       </button>
 
+      {/* Modal Form without background overlay */}
       {showForm && (
         <form
           onSubmit={onSubmit}
-          className="mt-4 bg-white p-6 rounded shadow space-y-4"
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded shadow-lg max-w-md w-full z-50"
         >
-          <h2 className="text-lg font-semibold text-gray-800">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">
             Create a New Habit
           </h2>
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Habit Name:
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="e.g. Drink water"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Create Habit
-          </button>
+            Habit Name:
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            ref={inputRef}
+            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
+            placeholder="e.g. Drink water"
+            required
+          />
+          <div className="flex justify-end gap-4">
+            <button
+              type="button"
+              onClick={toggleForm}
+              className="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
+            >
+              Create Habit
+            </button>
+          </div>
         </form>
       )}
-    </div>
+    </>
   );
 };
 

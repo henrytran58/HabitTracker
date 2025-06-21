@@ -18,7 +18,7 @@ def login_user():
     access_token = create_access_token(identity=user.id)  # generate token
 
     if user and user.check_password(password):
-        return jsonify({"token":access_token, "user": user.to_json()}), 200
+        return jsonify({"token": access_token, "user": user.to_json()}), 200
     else:
         return jsonify({"error": "Invalid credentials"}), 401
     

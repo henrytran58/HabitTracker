@@ -12,7 +12,7 @@ def create_app():
     app.config.from_object(Config)
     app.config["JWT_SECRET_KEY"] = "super-secret-key"  # Use environment variable in production
     jwt = JWTManager(app)
-    CORS(app)
+    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "http://localhost:5173"}})
     db.init_app(app) 
     
     # Import and register blueprints

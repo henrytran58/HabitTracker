@@ -78,6 +78,7 @@ const HabitPage = () => {
         ...prev,
         [habitId]: data.habit_log,
       }));
+      fetchHabits();
     } else {
       const err = await response.json();
       alert(err.message || "Failed to update habit log.");

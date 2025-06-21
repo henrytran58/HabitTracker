@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import HabitLog
+from app.models import HabitLog, Habit
 from app import db
 from datetime import date
 
@@ -10,6 +10,66 @@ habit_log_bp = Blueprint('habit_log_bp', __name__)
 #     habits = HabitLog.query.all()
 #     json_habits = list(map(lambda x:x.to_json(), habits))
 #     return jsonify({"habits": json_habits})
+
+from datetime import datetime, timedelta
+
+def update_streaks(habit_id):
+    try:
+        habit = Habit.query.get(habit_id)
+        if not habit:
+            print(f"[update_streaks] No habit found for ID {habit_id}")
+            return
+
+        logs = HabitLog.query.filter_by(habit_id=habit_id, status=True)\
+                             .order_by(HabitLog.completed_date.desc())\
+                             .all()
+
+        total_completed = len(logs)
+
+        current_streak = 1 if logs else 0
+        for i in range(1, len(logs)):
+            delta = (logs[i - 1].completed_date - logs[i].completed_date).days
+            if delta == 1:
+                current_streak += 1
+            else:
+                break
+
+        longest_streak = 1 if logs else 0
+        streak = 1
+        for i in range(1, len(logs)):
+            delta = (logs[i - 1].completed_date - logs[i].completed_date).days
+            if delta == 1:
+                streak += 1
+                longest_streak = max(longest_streak, streak)
+            else:
+                streak = 1
+
+        habit.count = total_completed
+        habit.current_streak = current_streak
+        habit.longest_streak = longest_streak
+        db.session.commit()
+
+        print(f"[update_streaks] Updated habit {habit_id}: total={total_completed}, current={current_streak}, longest={longest_streak}")
+
+    except Exception as e:
+        print(f"[update_streaks] ERROR: {str(e)}")
+def calculate_longest_streak(logs):
+    if not logs:
+        return 0
+
+    longest = 0
+    streak = 1
+
+    for i in range(1, len(logs)):
+        delta = (logs[i - 1].completed_date - logs[i].completed_date).days
+        if delta == 1:
+            streak += 1
+        else:
+            longest = max(longest, streak)
+            streak = 1
+
+    return max(longest, streak)
+
 
 @habit_log_bp.route('/api/habit_logs', methods=['GET'])
 def get_habit_logs_by_date():
@@ -54,7 +114,7 @@ def create_or_update_habit_log():
                 status=status
             )
             db.session.add(habit_log)
-
+        update_streaks(habit_id)
         db.session.commit()
 
         return jsonify({

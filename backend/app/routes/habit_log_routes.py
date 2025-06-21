@@ -2,6 +2,9 @@ from flask import Blueprint, request, jsonify
 from app.models import HabitLog, Habit
 from app import db
 from datetime import date
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import get_jwt_identity
+from collections import defaultdict
 
 habit_log_bp = Blueprint('habit_log_bp', __name__)
 
@@ -124,7 +127,106 @@ def create_or_update_habit_log():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+@habit_log_bp.route("/api/habit_logs/summary", methods=["GET"])
+@jwt_required()
+def get_log_summary():
+    user_id = get_jwt_identity()
 
+    # Fetch all True status logs for user's habits
+    logs = db.session.query(
+        Habit.id.label("habit_id"),
+        Habit.name.label("habit_name"),
+        Habit.current_streak,
+        Habit.longest_streak,
+        Habit.start_date.label("started_date"),
+        Habit.count,
+        HabitLog.completed_date
+    ).join(Habit).filter(
+        Habit.user_id == user_id,
+        HabitLog.status == True
+    ).order_by(HabitLog.completed_date).all()
+    # Group logs by habit
+    grouped = defaultdict(lambda: {
+        "logs": [],
+        "habit_id": None,
+        "habit_name": "",
+        "current_streak": 0,
+        "longest_streak": 0,
+        "started_date": None,
+        "total_count": 0
+    })
+
+    for habit_id, habit_name, current_streak, longest_streak, started_date, total_count, completed_date in logs:
+        habit_data = grouped[habit_id]
+        habit_data["habit_id"] = habit_id
+        habit_data["habit_name"] = habit_name
+        habit_data["current_streak"] = current_streak
+        habit_data["longest_streak"] = longest_streak
+        habit_data["started_date"] = started_date.isoformat() if started_date else None
+        habit_data["total_count"] = total_count
+        habit_data["logs"].append({
+            "date": completed_date.isoformat(),
+            "count": 1
+        })
+
+    # Add completion rate
+    today = date.today()
+    for habit in grouped.values():
+        if habit["started_date"]:
+            start_date = date.fromisoformat(habit["started_date"])
+            days_active = (today - start_date).days + 1
+            habit["completion_rate"] = round(habit["total_count"] / days_active, 2) if days_active > 0 else 0.0
+        else:
+            habit["completion_rate"] = 0.0
+
+    return jsonify({ "summary": list(grouped.values()) })
+# @habit_log_bp.route("/api/habit_logs/summary", methods=["GET"])
+# @jwt_required()
+# def get_log_summary():
+#     user_id = get_jwt_identity()
+
+#     # Join Habit and HabitLog, filter by user_id and completed status
+#     logs = db.session.query(
+#         Habit.id.label("habit_id"),
+#         Habit.name.label("habit_name"),
+#         HabitLog.completed_date,
+#         db.func.count(HabitLog.id).label("count")
+#     ).join(Habit).filter(
+#         Habit.user_id == user_id,
+#         HabitLog.status == True
+#     ).group_by(
+#         Habit.id, Habit.name, HabitLog.completed_date
+#     ).all()
+
+#     # Group logs by habit_id
+#     grouped = {}
+#     for habit_id, habit_name, date, count in logs:
+#         if habit_id not in grouped:
+#             grouped[habit_id] = {
+#                 "habit_id": habit_id,
+#                 "habit_name": habit_name,
+#                 "logs": []
+#             }
+#         grouped[habit_id]["logs"].append({
+#             "date": date.isoformat(),
+#             "count": count
+#         })
+
+#     return jsonify({"summary": list(grouped.values())})
+
+# @habit_log_bp.route("/api/habit_logs/summary", methods=["GET"])
+# @jwt_required()
+# def get_log_summary():
+#     user_id = get_jwt_identity()
+
+#     logs = db.session.query(HabitLog.completed_date, db.func.count(HabitLog.id))\
+#         .join(Habit)\
+#         .filter(Habit.user_id == user_id, HabitLog.status == True)\
+#         .group_by(HabitLog.completed_date)\
+#         .all()
+
+#     result = [{"date": date.isoformat(), "count": count} for date, count in logs]
+#     return jsonify({"summary": result})
 
 # @habit_log_bp.route('/api/update_habit_log/<int:id>', methods=['PATCH'])
 # def update_habit_log(id):

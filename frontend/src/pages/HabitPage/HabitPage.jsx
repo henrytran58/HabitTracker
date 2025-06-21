@@ -5,7 +5,7 @@ import ToggleFormHabit from "./components/ToggleFormHabit";
 import WeekDatePicker from "./components/WeekDatePicker";
 const HabitPage = () => {
   const [habits, setHabits] = useState([]);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   useEffect(() => {
     fetchHabits();
   }, []);
@@ -18,16 +18,16 @@ const HabitPage = () => {
   };
   const fetchHabits = async () => {
     const token = localStorage.getItem("token");
-  
+
     try {
       const response = await fetch(`http://127.0.0.1:5000/api/habits`, {
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         setHabits(data.habits);
         console.log("User's habits:", data.habits);
@@ -154,9 +154,18 @@ const HabitPage = () => {
       />
       ;
       <ToggleFormHabit onHabitCreated={handleHabitCreated} />
-      <button onClick={handleLogout} style={{ padding: "8px 16px", cursor: "pointer" }}>
-          Logout
-        </button>
+      <button
+        onClick={handleLogout}
+        style={{ padding: "8px 16px", cursor: "pointer" }}
+      >
+        Logout
+      </button>
+      <button
+        onClick={() => navigate("/streaks")}
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        View Streak Heatmap
+      </button>
     </>
   );
 };

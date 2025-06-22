@@ -12,7 +12,8 @@ def create_app():
     # CORS(app)
     # CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
     app.config.from_object(Config)
-    app.config["JWT_SECRET_KEY"] = "super-secret-key"  # Use environment variable in production
+    app.config["JWT_SECRET_KEY"] = "super-secret-key"
+    app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     jwt = JWTManager(app)
     CORS(app, supports_credentials=True)
     db.init_app(app) 

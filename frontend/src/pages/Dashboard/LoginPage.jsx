@@ -31,8 +31,8 @@ export default function LoginPage({ onLoginSuccess }) {
     e.preventDefault();
     //backend-website
     const url = isSignup
-      ? "http://127.0.0.1:5000/api/register"
-      : "http://127.0.0.1:5000/api/login";
+      ? "https://habittracker-8.onrender.com/api/register"
+      : "https://habittracker-8.onrender.com/api/login";
 
     const payload = isSignup
       ? {

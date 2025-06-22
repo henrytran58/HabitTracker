@@ -92,9 +92,9 @@ const HabitPage = () => {
   };
   const fetchHabits = async () => {
     const token = localStorage.getItem("token");
-
+    console.log("Token:", token); //
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/habits`, {
+      const response = await fetch(`https://habittracker-8.onrender.com/api/habits`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -120,7 +120,7 @@ const HabitPage = () => {
   const fetchHabitLogsForDate = async (date) => {
     const formattedDate = date.toISOString().split("T")[0];
     const response = await fetch(
-      `http://127.0.0.1:5000/api/habit_logs?date=${formattedDate}`
+      `https://habittracker-8.onrender.com/api/habit_logs?date=${formattedDate}`
     );
     const data = await response.json();
 
@@ -135,8 +135,8 @@ const HabitPage = () => {
 
   const handleToggleHabit = async (habitId, isDone) => {
     const formattedDate = selectedDate.toISOString().split("T")[0];
-
-    const response = await fetch("http://127.0.0.1:5000/api/create_habit_log", {
+    //backend 
+    const response = await fetch("https://habittracker-8.onrender.com/api/create_habit_log", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -167,7 +167,7 @@ const HabitPage = () => {
     if (!confirmed) return;
 
     const response = await fetch(
-      `http://127.0.0.1:5000/api/delete_habit/${habitId}`,
+      `https://habittracker-8.onrender.com/api/delete_habit/${habitId}`,
       {
         method: "DELETE",
       }
@@ -182,9 +182,8 @@ const HabitPage = () => {
   };
 
   const handleUpdate = async (habitId, newName) => {
-    // For demo: just increment the count (you can show a real form/modal later)
     const response = await fetch(
-      `http://127.0.0.1:5000/api/update_habit/${habitId}`,
+      `https://habittracker-8.onrender.com/api/update_habit/${habitId}`,
       {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },

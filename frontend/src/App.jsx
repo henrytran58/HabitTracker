@@ -10,12 +10,12 @@ function App() {
   useEffect(() => {
     document.title = "StreakFlow";
   }, []);
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     navigate("/habits");
-  //   }
-  // }, []);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/habits");
+    }
+  }, []);
 
   return (
     <Routes>

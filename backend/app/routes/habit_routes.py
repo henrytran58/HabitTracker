@@ -12,7 +12,7 @@ habit_bp = Blueprint('habit_bp', __name__)
 def get_habits():
     # user_id = request.args.get("user_id")
     user_id = get_jwt_identity()
-
+    print("user_id from token:", user_id)
     if not user_id:
         return jsonify({"error": "Missing user_id"}), 400
 

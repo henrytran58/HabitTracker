@@ -14,6 +14,7 @@ def create_app():
     app.config.from_object(Config)
     app.config["JWT_SECRET_KEY"] = "super-secret-key"
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=30)
     jwt = JWTManager(app)
     CORS(app, supports_credentials=True)
     db.init_app(app) 

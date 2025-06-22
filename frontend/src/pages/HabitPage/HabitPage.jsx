@@ -94,11 +94,15 @@ const HabitPage = () => {
     const token = localStorage.getItem("token");
     console.log("Token:", token); //
     try {
-      const response = await fetch(`https://habittracker-8.onrender.com/api/habits`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `https://habittracker-8.onrender.com/api/habits`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );
 
       const data = await response.json();
 
@@ -135,16 +139,19 @@ const HabitPage = () => {
 
   const handleToggleHabit = async (habitId, isDone) => {
     const formattedDate = selectedDate.toISOString().split("T")[0];
-    //backend 
-    const response = await fetch("https://habittracker-8.onrender.com/api/create_habit_log", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        habit_id: habitId,
-        completed: formattedDate,
-        status: isDone,
-      }),
-    });
+    //backend
+    const response = await fetch(
+      "https://habittracker-8.onrender.com/api/create_habit_log",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          habit_id: habitId,
+          completed: formattedDate,
+          status: isDone,
+        }),
+      }
+    );
 
     if (response.ok) {
       const data = await response.json();
@@ -215,7 +222,6 @@ const HabitPage = () => {
   };
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-300  to-purple-200 p-6 relative text-gray-900">
-      
       {/* Logout button top-right */}
       <button
         onClick={handleLogout}
@@ -224,10 +230,10 @@ const HabitPage = () => {
       >
         Log out
       </button>
-  
+
       {/* Date Picker */}
       <WeekDatePicker onDateChange={onDateChange} />
-  
+
       {/* Habit List */}
       <ListHabit
         habits={habits}
@@ -237,14 +243,14 @@ const HabitPage = () => {
         onUpdate={handleUpdate}
         className="mt-6"
       />
-  
+
       {/* Buttons below habit list */}
       <div className="flex justify-between mt-6">
         {/* Add Habit (ToggleFormHabit) on left */}
         <div>
           <ToggleFormHabit onHabitCreated={handleHabitCreated} />
         </div>
-  
+
         {/* View Streak button on right */}
         <button
           onClick={() => navigate("/streaks")}

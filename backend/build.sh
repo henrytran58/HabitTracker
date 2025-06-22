@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
 
-# Exit immediately if a command exits with a non-zero status.
 set -e
 
-echo "--- Updating pip, setuptools, and wheel ---"
-pip install --upgrade pip setuptools wheel
+echo "--- Checking Python version ---"
+python --version
+python3 --version
+
+echo "--- Updating pip ---"
+pip install --upgrade pip
+
+echo "--- Installing/Upgrading setuptools and wheel ---"
+# Reinstalling setuptools can sometimes clear out lingering older files
+pip install --upgrade --force-reinstall setuptools wheel
 
 echo "--- Installing project dependencies ---"
 pip install --upgrade --upgrade-strategy eager -r requirements.txt

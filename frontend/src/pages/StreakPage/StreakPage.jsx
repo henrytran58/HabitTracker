@@ -22,13 +22,17 @@ const StreakPage = () => {
   //styling
   useEffect(() => {
     const fetchSummary = async () => {
-      const token = localStorage.getItem("token");
-      //backend-website
+      // const token = localStorage.getItem("token");
+      // //backend-website
+      // const response = await fetch(
+      //   "https://habittracker-8.onrender.com/api/habit_logs/summary",
+      //   {
+      //     headers: { Authorization: `Bearer ${token}` },
+      //   }
+      // );
+      const userId = localStorage.getItem("userID");
       const response = await fetch(
-        "https://habittracker-8.onrender.com/api/habit_logs/summary",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        `https://habittracker-8.onrender.com/api/habit_logs/summary?user_id=${userId}`
       );
       const data = await response.json();
       setSummary(data.summary); // should be an array of habits with logs

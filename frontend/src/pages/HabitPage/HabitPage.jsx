@@ -92,7 +92,8 @@ const HabitPage = () => {
   };
 
   const fetchHabits = async () => {
-    const userId = localStorage.getItem("user_id"); // or however you store it
+    const userId = localStorage.getItem("userID");
+
     if (!userId) {
       console.error("Missing user ID");
       return;

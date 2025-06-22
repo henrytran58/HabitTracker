@@ -98,7 +98,6 @@ const HabitPage = () => {
         `https://habittracker-8.onrender.com/api/habits`,
         {
           headers: {
-            "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
           },
         }

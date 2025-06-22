@@ -10,8 +10,11 @@ habit_bp = Blueprint('habit_bp', __name__)
 @habit_bp.route('/api/habits', methods=['GET'])
 @jwt_required()
 def get_habits():
+    print("Headers:", request.headers)
+    print("Method:", request.method)
     # user_id = request.args.get("user_id")
     user_id = get_jwt_identity()
+    print(user_id)
     if not user_id:
         return jsonify({"error": "Missing user_id"}), 400
 

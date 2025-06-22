@@ -77,7 +77,15 @@ const ListHabit = ({
                       className="px-2 py-1 border rounded w-full"
                     />
                   ) : (
-                    habit.name
+                    <span
+                      className={`font-semibold ${
+                        habitLogs[habit.id]?.status
+                          ? "text-gray-400 line-through"
+                          : "text-gray-800"
+                      }`}
+                    >
+                      {habit.name}
+                    </span>
                   )}
                 </td>
                 <td className="px-4 py-2 border-b text-center">

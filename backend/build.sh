@@ -7,7 +7,7 @@ echo "--- Updating pip, setuptools, and wheel ---"
 pip install --upgrade pip setuptools wheel
 
 echo "--- Installing project dependencies ---"
-pip install -r requirements.txt
+pip install --upgrade --upgrade-strategy eager -r requirements.txt
 
 # If you have other build steps, add them here
 # For example:

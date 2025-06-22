@@ -1,7 +1,5 @@
---upgrade-strategy eager
 setuptools>=69.0.0
 wheel>=0.42.0
-pip>=24.0
 absl-py==2.0.0
 anyio==4.4.0
 async-timeout==4.0.3

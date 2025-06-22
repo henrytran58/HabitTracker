@@ -90,24 +90,22 @@ const HabitPage = () => {
   const handleHabitCreated = (newHabit) => {
     setHabits((prev) => [...prev, newHabit]);
   };
+
   const fetchHabits = async () => {
-    const token = localStorage.getItem("token");
-    console.log("Token:", token); //
+    const userId = localStorage.getItem("user_id"); // or however you store it
+    if (!userId) {
+      console.error("Missing user ID");
+      return;
+    }
+  
     try {
       const response = await fetch(
-        `https://habittracker-8.onrender.com/api/habits`,
-        {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        }
+        `https://habittracker-8.onrender.com/api/habits?user_id=${userId}`
       );
-
       const data = await response.json();
-
+  
       if (response.ok) {
         setHabits(data.habits);
-        // console.log("User's habits:", data.habits);
       } else {
         console.error("Error fetching habits:", data.error);
       }
@@ -115,6 +113,31 @@ const HabitPage = () => {
       console.error("Fetch error:", err.message);
     }
   };
+  // const fetchHabits = async () => {
+  //   const token = localStorage.getItem("token");
+  //   console.log("Token:", token); //
+  //   try {
+  //     const response = await fetch(
+  //       `https://habittracker-8.onrender.com/api/habits`,
+  //       {
+  //         headers: {
+  //           "Authorization": `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+
+  //     const data = await response.json();
+
+  //     if (response.ok) {
+  //       setHabits(data.habits);
+  //       // console.log("User's habits:", data.habits);
+  //     } else {
+  //       console.error("Error fetching habits:", data.error);
+  //     }
+  //   } catch (err) {
+  //     console.error("Fetch error:", err.message);
+  //   }
+  // };
   //styling
   useEffect(() => {
     fetchHabitLogsForDate(selectedDate);

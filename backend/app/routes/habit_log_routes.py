@@ -127,11 +127,15 @@ def create_or_update_habit_log():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+# @habit_log_bp.route("/api/habit_logs/summary", methods=["GET"])
+# @jwt_required()
+# def get_log_summary():
+#     user_id = get_jwt_identity()
 @habit_log_bp.route("/api/habit_logs/summary", methods=["GET"])
-@jwt_required()
 def get_log_summary():
-    user_id = get_jwt_identity()
-
+    user_id = request.args.get("user_id")
+    if not user_id:
+        return jsonify({"error": "Missing user_id"}), 400
     # Fetch all True status logs for user's habits
     logs = db.session.query(
         Habit.id.label("habit_id"),

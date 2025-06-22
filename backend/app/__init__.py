@@ -12,10 +12,11 @@ def create_app():
     # CORS(app)
     # CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
     app.config.from_object(Config)
-    app.config["JWT_SECRET_KEY"] = "super-secret-key"
+    app.config["JWT_SECRET_KEY"] = "super-secret"
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=30)
     app.config["JWT_COOKIE_CSRF_PROTECT"] = False
+    app.config["JWT_HEADER_TYPE"] = "Bearer"
     jwt = JWTManager(app)
     CORS(app, supports_credentials=True)
     db.init_app(app) 

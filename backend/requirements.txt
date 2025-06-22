@@ -1,4 +1,4 @@
-setuptools>=42
+setuptools>=68.0.0
 wheel
 absl-py==2.0.0
 anyio==4.4.0

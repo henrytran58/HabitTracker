@@ -176,7 +176,7 @@ def get_log_summary():
         })
 
     # Add completion rate
-    today = date.today()
+    today = request.args.get("date") or date.today()
     for habit in grouped.values():
         if habit["started_date"]:
             start_date = date.fromisoformat(habit["started_date"])

@@ -18,6 +18,12 @@ const GoBackButton = () => {
 
 const StreakPage = () => {
   const [summary, setSummary] = useState([]);
+  function formatDateIgnoreTime(dateObj) {
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
 
   //styling
   useEffect(() => {
@@ -31,8 +37,9 @@ const StreakPage = () => {
       //   }
       // );
       const userId = localStorage.getItem("userID");
+      const clientDate = formatDateIgnoreTime(new Date());
       const response = await fetch(
-        `https://habittracker-8.onrender.com/api/habit_logs/summary?user_id=${userId}`
+        `https://habittracker-8.onrender.com/api/habit_logs/summary?user_id=${userId}&date=${clientDate}`
       );
       const data = await response.json();
       setSummary(data.summary); // should be an array of habits with logs

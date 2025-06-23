@@ -145,8 +145,17 @@ const HabitPage = () => {
     fetchHabitLogsForDate(selectedDate);
   }, [selectedDate]);
 
+
+//need to make a new file for this function to use for multiple components
+function formatDateIgnoreTime(dateObj) {
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const day = String(dateObj.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
   const fetchHabitLogsForDate = async (date) => {
-    const formattedDate = date.toISOString().split("T")[0];
+    const formattedDate = formatDateIgnoreTime(date);
     const response = await fetch(
       `https://habittracker-8.onrender.com/api/habit_logs?date=${formattedDate}`
     );
@@ -162,7 +171,7 @@ const HabitPage = () => {
   };
 
   const handleToggleHabit = async (habitId, isDone) => {
-    const formattedDate = selectedDate.toISOString().split("T")[0];
+    const formattedDate = formatDateIgnoreTime(selectedDate);
     console.log(formattedDate);
     //backend
     const response = await fetch(

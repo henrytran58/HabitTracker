@@ -14,16 +14,26 @@ const ToggleFormHabit = ({ onHabitCreated }) => {
       inputRef.current.focus();
     }
   }, [showForm]);
+  function formatDateIgnoreTime(dateObj) {
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const data = { user_id, name };
+    const start_date = formatDateIgnoreTime(new Date());
+    const data = { user_id, name, start_date };
 
-    const response = await fetch("https://habittracker-8.onrender.com/api/create_habit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      "https://habittracker-8.onrender.com/api/create_habit",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    );
 
     if (!response.ok) {
       const message = await response.json();

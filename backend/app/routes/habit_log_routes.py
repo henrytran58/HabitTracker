@@ -94,11 +94,13 @@ def create_or_update_habit_log():
     completed_date = data.get('completed') or date.today().isoformat()
     status = data.get('status')
 
+    print("before isoformat:", completed_date)
     if habit_id is None or status is None:
         return jsonify({"message": "habit_id and status are required"}), 400
-
+    
     try:
         completed_date = date.fromisoformat(completed_date)
+        print("afeter isoformat:", completed_date)
     except ValueError:
         return jsonify({'message': 'Invalid completed date format'}), 400
 

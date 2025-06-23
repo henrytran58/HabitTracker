@@ -86,6 +86,7 @@ const HabitPage = () => {
 
   const [habitLogs, setHabitLogs] = useState({});
   const [selectedDate, setSelectedDate] = useState(new Date());
+  
 
   const handleHabitCreated = (newHabit) => {
     setHabits((prev) => [...prev, newHabit]);

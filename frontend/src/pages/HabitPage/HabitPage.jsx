@@ -162,6 +162,7 @@ const HabitPage = () => {
 
   const handleToggleHabit = async (habitId, isDone) => {
     const formattedDate = selectedDate.toISOString().split("T")[0];
+    console.log(formattedDate);
     //backend
     const response = await fetch(
       "https://habittracker-8.onrender.com/api/create_habit_log",

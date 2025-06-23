@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.models import HabitLog, Habit
 from app import db
-from datetime import date
+from datetime import datetime, date
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
 from collections import defaultdict
@@ -176,7 +176,7 @@ def get_log_summary():
         })
 
     # Add completion rate
-    today = request.args.get("date") or date.today()
+    date_str = request.args.get("date") or date.today()
     today = datetime.strptime(date_str, "%Y-%m-%d").date()
     for habit in grouped.values():
         if habit["started_date"]:

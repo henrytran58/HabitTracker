@@ -18,7 +18,7 @@ def create_app():
     app.config["JWT_COOKIE_CSRF_PROTECT"] = False
     app.config["JWT_HEADER_TYPE"] = "Bearer"
     jwt = JWTManager(app)
-    CORS(app, supports_credentials=True, origins=["https://streakflow.netlify.app"])
+    CORS(app, supports_credentials=True, origins=["https://streakflow.netlify.app", "http://localhost:5173/"])
     db.init_app(app) 
     
     # Import and register blueprints
